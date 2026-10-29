@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#141614">
+  <meta name="description" content="Быстрый доступ к рекламным аккаунтам Dataction в Meta Ads Manager.">
+  <title>Dataction — рекламные аккаунты</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23141614'/%3E%3Cpath d='M17 17h19v19H17zm11 11h19v19H28z' fill='%23d5fc78'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #141614;
+      --surface: #1c1f1c;
+      --surface-hover: #242923;
+      --ink: #f3f4ed;
+      --muted: #a4aaa0;
+      --faint: #7e877a;
+      --border: #343a32;
+      --accent: #d5fc78;
+      --accent-ink: #19210d;
+      --grid-line: rgba(213, 252, 120, .025);
+      --note-bg: #1c2116;
+      --note-border: #363f29;
+      --note-text: #bbc6a8;
+    }
+    :root[data-theme="light"] {
+      color-scheme: light;
+      --bg: #f4f5ef;
+      --surface: #fff;
+      --surface-hover: #f7fbeF;
+      --ink: #20271b;
+      --muted: #626d5b;
+      --faint: #697562;
+      --border: #dce1d5;
+      --accent: #d5fc78;
+      --accent-ink: #19210d;
+      --grid-line: rgba(44, 66, 25, .035);
+      --note-bg: #ecf1e2;
+      --note-border: #d6dfc4;
+      --note-text: #526141;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { min-width: 280px; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+      background-size: 72px 72px;
+      pointer-events: none;
+      mask-image: linear-gradient(#000, transparent 80%);
+    }
+    ::selection { background: var(--accent); color: var(--accent-ink); }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
+    .shell { width: min(1160px, calc(100% - 96px)); margin: 0 auto; }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 102px;
+      border-bottom: 1px solid var(--border);
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-mark { width: 31px; height: 31px; color: var(--accent); flex-shrink: 0; }
+    [data-theme="light"] .brand-mark { color: #527326; }
+    .brand-name { font-size: 25px; font-weight: 700; letter-spacing: -1.2px; line-height: 1; }
+    .header-tools { display: flex; align-items: center; gap: 22px; }
+    .platform { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 500; color: var(--muted); }
+    .platform svg { width: 22px; height: 15px; }
+    .separator { width: 1px; height: 20px; background: var(--border); }
+    .theme-toggle {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      cursor: pointer;
+      transition: color .2s, border-color .2s, transform .2s;
+    }
+    .theme-toggle:hover { color: var(--ink); border-color: var(--faint); transform: rotate(15deg); }
+    .theme-toggle svg { width: 17px; height: 17px; }
+    .moon { display: none; }
+    [data-theme="light"] .sun { display: none; }
+    [data-theme="light"] .moon { display: block; }
+    .hero { display: flex; align-items: flex-end; justify-content: space-between; padding: 60px 0 44px; gap: 40px; }
+    .eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 20px; color: var(--muted); font-size: 10px; letter-spacing: 2.5px; font-weight: 600; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 22px; height: 2px; background: var(--accent); }
+    [data-theme="light"] .eyebrow::before { background: #527326; }
+    h1 { margin: 0; font-size: clamp(38px, 4.5vw, 62px); line-height: 1.03; letter-spacing: -3px; font-weight: 550; }
+    h1 span { color: var(--accent); }
+    [data-theme="light"] h1 span { color: #557b23; }
+    .hero-description { color: var(--muted); max-width: 253px; margin: 0 0 4px; font-size: 13px; line-height: 1.8; }
+    .section-heading { display: flex; align-items: center; justify-content: space-between; padding-bottom: 17px; }
+    .section-heading h2 { font-size: 12px; font-weight: 500; margin: 0; }
+    .section-heading .count { color: var(--faint); font-size: 11px; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .card {
+      display: flex;
+      flex-direction: column;
+      padding: 25px 26px 20px;
+      min-height: 242px;
+      position: relative;
+      isolation: isolate;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      overflow: hidden;
+      transition: transform .24s ease, background .24s ease, border-color .24s ease, box-shadow .24s ease;
+      animation: appear .5s both;
+    }
+    .card:nth-child(2) { animation-delay: .04s; }
+    .card:nth-child(3) { animation-delay: .08s; }
+    .card:nth-child(4) { animation-delay: .12s; }
+    .card:nth-child(5) { animation-delay: .16s; }
+    .card:nth-child(6) { animation-delay: .2s; }
+    .card::before {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -45px;
+      top: -65px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0;
+      filter: blur(50px);
+      transition: opacity .24s;
+      z-index: -1;
+    }
+    .card:hover { transform: translateY(-4px); border-color: #71844e; background: var(--surface-hover); box-shadow: 0 12px 32px #00000014; }
+    .card:hover::before { opacity: .12; }
+    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .flag { display: block; width: 34px; height: 24px; border-radius: 4px; overflow: hidden; box-shadow: 0 0 0 1px #ffffff18; flex-shrink: 0; }
+    .ordinal { color: var(--faint); font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; font-size: 10px; letter-spacing: 1px; }
+    .card-title { margin: 0; font-size: 25px; font-weight: 550; letter-spacing: -.8px; line-height: 1.2; }
+    .card-title span { font-weight: 450; color: var(--muted); }
+    .country { margin: 6px 0 17px; color: var(--muted); font-size: 12px; }
+    .account-id { margin: 0 0 21px; color: var(--faint); font-size: 10px; letter-spacing: .1px; font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
+    .card-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 15px; margin-top: auto; }
+    .open-label { font-size: 11px; font-weight: 500; }
+    .arrow { width: 29px; height: 29px; display: grid; place-items: center; border: 1px solid var(--border); color: var(--ink); border-radius: 50%; transition: background .24s, color .24s, border-color .24s; }
+    .arrow svg { width: 14px; height: 14px; transition: transform .24s; }
+    .card:hover .arrow, .card:focus-visible .arrow { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+    .card:hover .arrow svg { transform: translate(1px, -1px); }
+    .note { display: flex; gap: 11px; align-items: center; margin: 22px 0 0; padding: 13px 17px; border: 1px solid var(--note-border); border-radius: 10px; background: var(--note-bg); color: var(--note-text); font-size: 10px; line-height: 1.7; }
+    .note svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .note strong { font-weight: 600; }
+    .footer { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 40px; padding: 22px 0 24px; border-top: 1px solid var(--border); font-size: 10px; color: var(--faint); }
+    .footer-left { display: flex; align-items: center; gap: 8px; }
+    .footer-mark { width: 13px; height: 13px; }
+    .footer-right { display: flex; align-items: center; gap: 7px; }
+    .footer-right svg { width: 11px; height: 11px; }
+    @keyframes appear { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @media (min-width: 1500px) { .shell { width: min(1220px, calc(100% - 120px)); } .hero { padding-top: 74px; padding-bottom: 55px; } .card { min-height: 259px; } }
+    @media (max-width: 900px) { .shell { width: calc(100% - 56px); } .hero { padding-top: 48px; } .hero-description { max-width: 210px; font-size: 12px; } .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 560px) {
+      .shell { width: calc(100% - 36px); }
+      .topbar { height: 80px; }
+      .brand-name { font-size: 23px; }
+      .brand-mark { width: 27px; height: 27px; }
+      .header-tools { gap: 12px; }
+      .platform span, .separator { display: none; }
+      .hero { display: block; padding: 39px 0 32px; }
+      .eyebrow { font-size: 9px; letter-spacing: 2px; margin-bottom: 18px; }
+      h1 { font-size: 45px; letter-spacing: -2px; }
+      .hero-description { margin-top: 20px; max-width: 290px; line-height: 1.7; }
+      .grid { grid-template-columns: 1fr; gap: 12px; }
+      .card { padding: 22px; min-height: 218px; }
+      .card-top { margin-bottom: 16px; }
+      .account-id { margin-bottom: 19px; }
+      .note { align-items: flex-start; padding: 13px; font-size: 10px; }
+      .note svg { margin-top: 2px; }
+      .footer { margin-top: 28px; align-items: flex-start; flex-direction: column; gap: 12px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+  </style>
+  <script>
+    try {
+      var storedTheme = localStorage.getItem('dataction-theme');
+      if (storedTheme === 'light') document.documentElement.dataset.theme = 'light';
+    } catch (_) {}
+  </script>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand" aria-label="Dataction">
+        <svg class="brand-mark" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M1 1h19v19H1z" opacity=".45"/><path d="M12 12h19v19H12z"/></svg>
+        <span class="brand-name">dataction<span style="color:var(--muted)">.</span></span>
+      </div>
+      <div class="header-tools">
+        <div class="platform">
+          <svg viewBox="0 0 30 20" fill="none" aria-hidden="true"><path d="M2 14C2 7 4 2 8 2c5 0 10 16 15 16 3 0 5-2 5-6 0-5-2-10-6-10-5 0-10 16-15 16-3 0-5-2-5-4Z" stroke="currentColor" stroke-width="2.5"/></svg>
+          <span>Ads Manager</span>
+        </div>
+        <span class="separator" aria-hidden="true"></span>
+        <button class="theme-toggle" type="button" aria-label="Включить светлую тему" title="Переключить тему">
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14A9 9 0 0 1 10 3.5 9 9 0 1 0 20.5 14Z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">Рабочее пространство</p>
+          <h1 id="page-title">Все аккаунты.<br><span>Один клик.</span></h1>
+        </div>
+        <p class="hero-description">Быстрый переход к рекламе Dataction.<br>Выберите страну, чтобы открыть<br>нужный кабинет в Meta.</p>
+      </section>
+
+      <section aria-labelledby="accounts-title">
+        <div class="section-heading">
+          <h2 id="accounts-title">Рекламные аккаунты</h2>
+          <span class="count">06 направлений</span>
+        </div>
+        <div class="grid">
+          <a class="card" data-code="GE" href="https://adsmanager.facebook.com/adsmanager/manage/campaigns?global_scope_id=505853530872916&amp;business_id=505853530872916&amp;act=1396289672652795&amp;nav_entry_point=am_global_scope_selector&amp;redirect_session_id=c08247f5-fd9a-4350-a3cf-42a4859ad966&amp;columns=name%2Cdelivery%2Crecommendations_guidance%2Cresults%2Ccost_per_result%2Cbudget%2Cspend%2Cimpressions%2Creach%2Cschedule%2Cend_time%2Cattribution_setting%2Cbid%2Clast_significant_edit%2Cquality_score_organic%2Cquality_score_ectr%2Cquality_score_ecvr%2Ccampaign_name&amp;attribution_windows=default" target="_blank" rel="noopener noreferrer" aria-label="Dataction GE, Грузия. Открыть аккаунт в новой вкладке">
+            <div class="card-top">
+              <svg class="flag" viewBox="0 0 34 24" aria-hidden="true"><rect width="34" height="24" fill="#fff"/><path d="M14.5 0h5v24h-5zM0 9.5h34v5H0z" fill="#da3039"/><g fill="#da3039"><path d="M6.5 2.5h2v5h-2zM5 4h5v2H5zM25.5 2.5h2v5h-2zM24 4h5v2h-5zM6.5 16.5h2v5h-2zM5 18h5v2H5zM25.5 16.5h2v5h-2zM24 18h5v2h-5z"/></g></svg>
+              <span class="ordinal">01 / GE</span>
+            </div>
+            <h3 class="card-title"><span>Dataction</span> GE</h3>
+            <p class="country">Грузия</p>
+            <p class="account-id">ID 1396289672652795</p>
+            <div class="card-bottom"><span class="open-label">Открыть аккаунт</span><span class="arrow" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 15 15 5M5 5h10v10"/></svg></span></div>
+          </a>
+
+          <a class="card" data-code="TJ" href="https://adsmanager.facebook.com/adsmanager/manage/campaigns?global_scope_id=505853530872916&amp;business_id=505853530872916&amp;act=1490583386237131&amp;nav_entry_point=am_global_scope_selector&amp;redirect_session_id=106fbe06-178c-41ce-a3b5-4f8a6d831faa&amp;columns=name%2Cdelivery%2Crecommendations_guidance%2Cresults%2Ccost_per_result%2Cbudget%2Cspend%2Cimpressions%2Creach%2Cschedule%2Cend_time%2Cattribution_setting%2Cbid%2Clast_significant_edit%2Cquality_score_organic%2Cquality_score_ectr%2Cquality_score_ecvr%2Ccampaign_name&amp;attribution_windows=default" target="_blank" rel="noopener noreferrer" aria-label="Dataction TJ, Таджикистан. Открыть аккаунт в новой вкладке">
+            <div class="card-top">
+              <svg class="flag" viewBox="0 0 34 24" aria-hidden="true"><rect width="34" height="24" fill="#fff"/><path d="M0 0h34v7H0z" fill="#cb333e"/><path d="M0 17h34v7H0z" fill="#19844d"/><g fill="none" stroke="#c6a542" stroke-width=".9" stroke-linejoin="round"><path d="m13 11 1 3h6l1-3-2.2 1-1.8-2-1.8 2zM14 15.5h6"/></g><g fill="#c6a542"><circle cx="12.5" cy="10" r=".55"/><circle cx="14.1" cy="8.6" r=".55"/><circle cx="17" cy="8" r=".55"/><circle cx="19.9" cy="8.6" r=".55"/><circle cx="21.5" cy="10" r=".55"/></g></svg>
+              <span class="ordinal">02 / TJ</span>
+            </div>
+            <h3 class="card-title"><span>Dataction</span> TJ</h3>
+            <p class="country">Таджикистан</p>
+            <p class="account-id">ID 1490583386237131</p>
+            <div class="card-bottom"><span class="open-label">Открыть аккаунт</span><span class="arrow" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 15 15 5M5 5h10v10"/></svg></span></div>
+          </a>
+
+          <a class="card" data-code="KZ" href="https://adsmanager.facebook.com/adsmanager/manage/campaigns?global_scope_id=505853530872916&amp;business_id=505853530872916&amp;act=37169316479380956&amp;nav_entry_point=am_global_scope_selector&amp;redirect_session_id=6828809d-68d2-4430-be3a-7455de6782ec#" target="_blank" rel="noopener noreferrer" aria-label="Dataction KZ, Казахстан. Открыть аккаунт в новой вкладке">
+            <div class="card-top">
+              <svg class="flag" viewBox="0 0 34 24" aria-hidden="true"><rect width="34" height="24" fill="#29b5ce"/><g fill="none" stroke="#ffdc67" stroke-width="1"><path d="m3 2 1.5 2L3 6l1.5 2L3 10l1.5 2L3 14l1.5 2L3 18l1.5 2L3 22"/><circle cx="20" cy="10" r="4.1" stroke-dasharray=".7 1.2" stroke-width="1.4"/><path d="M11 15q4 5 9 3 5 2 9-3-4 3-9 1-5 2-9-1Z" stroke-width=".7"/></g><circle cx="20" cy="10" r="2.8" fill="#ffdc67"/></svg>
+              <span class="ordinal">03 / KZ</span>
+            </div>
+            <h3 class="card-title"><span>Dataction</span> KZ</h3>
+            <p class="country">Казахстан</p>
+            <p class="account-id">ID 37169316479380956</p>
+            <div class="card-bottom"><span class="open-label">Открыть аккаунт</span><span class="arrow" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 15 15 5M5 5h10v10"/></svg></span></div>
+          </a>
+
+          <a class="card" data-code="KG" href="https://adsmanager.facebook.com/adsmanager/manage/campaigns?global_scope_id=505853530872916&amp;business_id=505853530872916&amp;act=37169316479380956&amp;nav_entry_point=am_global_scope_selector&amp;redirect_session_id=6828809d-68d2-4430-be3a-7455de6782ec#" target="_blank" rel="noopener noreferrer" aria-label="Dataction KG, Кыргызстан. Открыть аккаунт в новой вкладке">
+            <div class="card-top">
+              <svg class="flag" viewBox="0 0 34 24" aria-hidden="true"><rect width="34" height="24" fill="#d63743"/><g stroke="#ffdd66" fill="none"><circle cx="17" cy="12" r="5.7" stroke-width="1.8" stroke-dasharray=".65 1.05"/><circle cx="17" cy="12" r="3.8" stroke-width="1.1"/><path d="M13.8 9.8q3.2 1 6.4 4.4M13.2 11q3.2 1 6.2 4M14.5 8.9q3.2 1 6.2 4M20.2 9.8q-3.2 1-6.4 4.4M20.8 11q-3.2 1-6.2 4M19.5 8.9q-3.2 1-6.2 4" stroke-width=".6"/></g></svg>
+              <span class="ordinal">04 / KG</span>
+            </div>
+            <h3 class="card-title"><span>Dataction</span> KG</h3>
+            <p class="country">Кыргызстан</p>
+            <p class="account-id">ID 37169316479380956</p>
+            <div class="card-bottom"><span class="open-label">Открыть аккаунт</span><span class="arrow" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 15 15 5M5 5h10v10"/></svg></span></div>
+          </a>
+
+          <a class="card" data-code="AZ" href="https://adsmanager.facebook.com/adsmanager/manage/campaigns?global_scope_id=505853530872916&amp;business_id=505853530872916&amp;act=1134471862478048&amp;nav_entry_point=am_global_scope_selector&amp;redirect_session_id=386a7806-acf7-4585-8506-7778ff2377f7#" target="_blank" rel="noopener noreferrer" aria-label="Dataction AZ, Азербайджан. Открыть аккаунт в новой вкладке">
+            <div class="card-top">
+              <svg class="flag" viewBox="0 0 34 24" aria-hidden="true"><rect width="34" height="8" fill="#25a6ce"/><path d="M0 8h34v8H0z" fill="#e04455"/><path d="M0 16h34v8H0z" fill="#259568"/><circle cx="16.5" cy="12" r="3.2" fill="#fff"/><circle cx="17.5" cy="12" r="2.65" fill="#e04455"/><path d="m20 9.6.5 1.2 1.2-.5-.5 1.2 1.2.5-1.2.5.5 1.2-1.2-.5-.5 1.2-.5-1.2-1.2.5.5-1.2-1.2-.5 1.2-.5-.5-1.2 1.2.5z" fill="#fff"/></svg>
+              <span class="ordinal">05 / AZ</span>
+            </div>
+            <h3 class="card-title"><span>Dataction</span> AZ</h3>
+            <p class="country">Азербайджан</p>
+            <p class="account-id">ID 1134471862478048</p>
+            <div class="card-bottom"><span class="open-label">Открыть аккаунт</span><span class="arrow" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 15 15 5M5 5h10v10"/></svg></span></div>
+          </a>
+
+          <a class="card" data-code="AM" href="https://adsmanager.facebook.com/adsmanager/manage/campaigns?global_scope_id=505853530872916&amp;business_id=505853530872916&amp;act=1604156871117787&amp;nav_entry_point=am_global_scope_selector&amp;redirect_session_id=ec3f639a-c087-41f0-b149-40eed3aa35ca#" target="_blank" rel="noopener noreferrer" aria-label="Dataction AM, Армения. Открыть аккаунт в новой вкладке">
+            <div class="card-top">
+              <svg class="flag" viewBox="0 0 34 24" aria-hidden="true"><rect width="34" height="8" fill="#d74048"/><path d="M0 8h34v8H0z" fill="#345aa2"/><path d="M0 16h34v8H0z" fill="#e9a945"/></svg>
+              <span class="ordinal">06 / AM</span>
+            </div>
+            <h3 class="card-title"><span>Dataction</span> AM</h3>
+            <p class="country">Армения</p>
+            <p class="account-id">ID 1604156871117787</p>
+            <div class="card-bottom"><span class="open-label">Открыть аккаунт</span><span class="arrow" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 15 15 5M5 5h10v10"/></svg></span></div>
+          </a>
+        </div>
+        <p class="note">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path d="M10 9v5M10 6.1v.2"/></svg>
+          <span><strong>KZ и KG ведут в один кабинет.</strong> В исходных ссылках указан одинаковый ID. Обе кнопки сохранены.</span>
+        </p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-left"><svg class="footer-mark" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M1 1h19v19H1z" opacity=".4"/><path d="M12 12h19v19H12z"/></svg><span>Dataction / Meta Ads</span></div>
+      <div class="footer-right"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3H3v10h10v-3M8 2h6v6M7 9l7-7"/></svg><span>Аккаунты открываются в новой вкладке</span></div>
+    </footer>
+  </div>
+  <script>
+    (function () {
+      var toggle = document.querySelector('.theme-toggle');
+      function updateLabel() {
+        toggle.setAttribute('aria-label', document.documentElement.dataset.theme === 'light' ? 'Включить тёмную тему' : 'Включить светлую тему');
+      }
+      updateLabel();
+      toggle.addEventListener('click', function () {
+        var theme = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+        document.documentElement.dataset.theme = theme;
+        document.querySelector('meta[name="theme-color"]').content = theme === 'light' ? '#f4f5ef' : '#141614';
+        try { localStorage.setItem('dataction-theme', theme); } catch (_) {}
+        updateLabel();
+      });
+    }());
+  </script>
+</body>
+</html>
